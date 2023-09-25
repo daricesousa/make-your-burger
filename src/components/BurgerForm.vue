@@ -1,4 +1,32 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+
+const breads = ref(null);
+const meats = ref(null);
+const optionalData = ref(null);
+
+const editName = ref("");
+const editBread = ref("");
+const editMeat = ref("");
+const editOptional = ref([]);
+
+const status = ref("Solicitado");
+const msg = ref("");
+
+async function getIngredients() {
+  const req = await fetch("http://localhost:3000/ingredients");
+  const data = await req.json();
+  breads.value = data.breads;
+  meats.value = data.meats;
+  optionalData.value = data.optional;
+
+}
+
+
+onMounted(() => {
+  getIngredients();
+});
+
 
 </script>
 
@@ -16,32 +44,24 @@
         <label for="bread">Escolha o pão: </label>
         <select name="bread" id="bread">
           <option value=""> Selecione o seu pão</option>
+          <option v-for="bread in breads" :key="bread.id" :value="bread.type"> {{ bread.type }}</option>
         </select>
       </div>
       <div class="input-container">
         <label for="meat">Escolha a carne do seu Burger: </label>
         <select name="meat" id="meat">
           <option value=""> Selecione o tipo de carne</option>
+          <option v-for="meat in meats" :key="meat.id" :value="meat.type"> {{ meat.type }}</option>
         </select>
       </div>
-      <div id="option-container" class="input-container">
-        <label id="option-title" for="option">Selecione os opcionais: </label>
-        <div class="checkbox-container">
-          <input type="checkbox" name="option" value="salame">
-          <span> Salame</span>
+      <div id="optional-container" class="input-container">
+        <label id="optional-title" for="optional">Selecione os opcionais: </label>
+
+        <div class="checkbox-container" v-for="optional in optionalData" :key="optional.id">
+          <input type="checkbox" name="optional" :v-model="optional" :value="optional.type">
+          <span> {{ optional.type }}</span>
         </div>
-        <div class="checkbox-container">
-          <input type="checkbox" name="option" value="salame">
-          <span> Salame</span>
-        </div>
-        <div class="checkbox-container">
-          <input type="checkbox" name="option" value="salame">
-          <span> Salame</span>
-        </div>
-        <div class="checkbox-container">
-          <input type="checkbox" name="option" value="salame">
-          <span> Salame</span>
-        </div>
+
         <div class="input-container">
           <input type="submit" class="submit-btn" value="Criar meu burger!">
         </div>
@@ -78,12 +98,12 @@ select {
   width: 300px
 }
 
-#option-container {
+#optional-container {
   flex-wrap: wrap;
   flex-direction: row;
 }
 
-#option-title {
+#optional-title {
   width: 100%;
 }
 
