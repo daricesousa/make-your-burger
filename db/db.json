@@ -77,5 +77,29 @@
       "type": "Finalizado"
     }
   ],
-  "burgers": []
+  "burgers": [
+    {
+      "name": "Darice",
+      "meat": "Alcatra",
+      "bread": "Italiano Branco",
+      "optional": [
+        "Bacon",
+        "Tomate",
+        "Cheddar"
+      ],
+      "status": "Solicitado",
+      "id": 1
+    },
+    {
+      "name": "João",
+      "meat": "Maminha",
+      "bread": "Integral",
+      "optional": [
+        "Bacon",
+        "Salame"
+      ],
+      "status": "Solicitado",
+      "id": 2
+    }
+  ]
 }

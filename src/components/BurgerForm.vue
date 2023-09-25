@@ -10,7 +10,6 @@ const editBread = ref("");
 const editMeat = ref("");
 const editOptional = ref([]);
 
-const status = ref("Solicitado");
 const msg = ref("");
 
 async function getIngredients() {
@@ -22,6 +21,27 @@ async function getIngredients() {
 
 }
 
+async function createBurger() {
+
+  const data = {
+    name: editName.value,
+    meat: editMeat.value,
+    bread: editBread.value,
+    optional: Array.from(editOptional.value),
+    status: "Solicitado",
+  }
+  const dataJson = JSON.stringify(data);
+  const req = await fetch("http://localhost:3000/burgers", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: dataJson
+  });
+  const res = await req.json();
+  editName.value = "";
+  editBread.value = "";
+  editMeat.value = "";
+  editOptional.value = [];
+}
 
 onMounted(() => {
   getIngredients();
@@ -35,21 +55,21 @@ onMounted(() => {
   <div>
     <p>Componente de mensagem</p>
 
-    <form id="burger-form">
+    <form id="burger-form" @submit.prevent="createBurger">
       <div class="input-container">
         <label for="name">Nome do cliente: </label>
-        <input type="text" id="name" placeholder="Digite seu nome" />
+        <input type="text" id="name" placeholder="Digite seu nome" v-model="editName" />
       </div>
       <div class="input-container">
         <label for="bread">Escolha o pão: </label>
-        <select name="bread" id="bread">
+        <select name="bread" id="bread" v-model="editBread">
           <option value=""> Selecione o seu pão</option>
           <option v-for="bread in breads" :key="bread.id" :value="bread.type"> {{ bread.type }}</option>
         </select>
       </div>
       <div class="input-container">
         <label for="meat">Escolha a carne do seu Burger: </label>
-        <select name="meat" id="meat">
+        <select name="meat" id="meat" v-model="editMeat">
           <option value=""> Selecione o tipo de carne</option>
           <option v-for="meat in meats" :key="meat.id" :value="meat.type"> {{ meat.type }}</option>
         </select>
@@ -58,7 +78,7 @@ onMounted(() => {
         <label id="optional-title" for="optional">Selecione os opcionais: </label>
 
         <div class="checkbox-container" v-for="optional in optionalData" :key="optional.id">
-          <input type="checkbox" name="optional" :v-model="optional" :value="optional.type">
+          <input type="checkbox" name="optional" v-model="editOptional" :value="optional.type">
           <span> {{ optional.type }}</span>
         </div>
 
