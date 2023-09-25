@@ -87,19 +87,8 @@
         "Tomate",
         "Cheddar"
       ],
-      "status": "Em produção",
-      "id": 1
-    },
-    {
-      "name": "Daise",
-      "meat": "Picanha",
-      "bread": "Italiano Branco",
-      "optional": [
-        "Bacon",
-        "Salame"
-      ],
       "status": "Finalizado",
-      "id": 3
+      "id": 1
     },
     {
       "name": "Alvani",

@@ -1,9 +1,11 @@
 <script setup>
 
 import { onMounted, ref } from 'vue';
+import MessageComp from './MessageComp.vue';
 
 const orders = ref([]);
 const statusList = ref([]);
+const msg = ref("");
 
 async function getOrders() {
   const res = await fetch("http://localhost:3000/burgers");
@@ -22,6 +24,8 @@ async function deleteOrder(id) {
     method: "DELETE",
   });
   getOrders();
+  setTimeout(() => msg.value = "", 3000);
+  msg.value = `Pedido Nº ${id} cancelado com sucesso`;
 }
 
 async function updateStatus(event, id) {
@@ -33,6 +37,8 @@ async function updateStatus(event, id) {
     headers: { "Content-Type": "application/json" },
     body: dataJson
   })
+  msg.value = `Pedido Nº ${id} atualizado para ${option}!`;
+  setTimeout(() => msg.value = "", 3000);
 }
 
 
@@ -47,6 +53,7 @@ onMounted(() => {
 <template>
   <div id="burger-table">
     <div>
+      <MessageComp :msg="msg" v-show="msg" />
       <div id="burger-table-heading" class="burger-table-row">
         <div class="order-id">#:</div>
         <div>Cliente</div>
