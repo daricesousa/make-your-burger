@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import MessageComp from './MessageComp.vue';
 
 const breads = ref(null);
 const meats = ref(null);
@@ -41,20 +42,18 @@ async function createBurger() {
   editBread.value = "";
   editMeat.value = "";
   editOptional.value = [];
+  msg.value = `Pedido Nº ${res.id} realizado com sucesso`;
+  setTimeout(() => msg.value = "", 3000);
 }
 
-onMounted(() => {
-  getIngredients();
-});
-
+onMounted(() => getIngredients());
 
 </script>
 
 
 <template>
   <div>
-    <p>Componente de mensagem</p>
-
+    <MessageComp :msg="msg" v-show="msg" />
     <form id="burger-form" @submit.prevent="createBurger">
       <div class="input-container">
         <label for="name">Nome do cliente: </label>
