@@ -1,4 +1,18 @@
 <script setup>
+
+import { onMounted, ref } from 'vue';
+
+const orders = ref([]);
+
+async function getOrders() {
+  const req = await fetch("http://localhost:3000/burgers");
+  const data = await req.json();
+  orders.value = data;
+}
+
+onMounted(() => getOrders());
+
+
 </script>
 
 <template>
@@ -12,20 +26,19 @@
         <div>Opcionais</div>
         <div>Ações</div>
       </div>
-      <div id="burger-table-rows">
+      <div id="burger-table-rows" v-for="order in orders" :key="order.id">
         <div class="burger-table-row">
-          <div class="order-number">1</div>
-          <div> João</div>
-          <div> Integral</div>
-          <div>Maminha</div>
+          <div class="order-number">{{ order.id }}</div>
+          <div>{{ order.name }}</div>
+          <div> {{ order.bread }}</div>
+          <div>{{ order.meat }}</div>
           <div>
-            <ul>
-              <li> Salame</li>
-              <li> Tomate</li>
+            <ul v-for="(optional, index) in order.optional" :key="index">
+              <li>{{ optional }}</li>
             </ul>
           </div>
           <select name="status" class="status">
-            <option value="">Fazendo</option>
+            <option value="">{{ order.status }}</option>
           </select>
           <button class="delete-btn">Cancelar</button>
         </div>
