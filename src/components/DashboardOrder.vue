@@ -6,15 +6,33 @@ const orders = ref([]);
 const statusList = ref([]);
 
 async function getOrders() {
-  const req = await fetch("http://localhost:3000/burgers");
-  const data = await req.json();
+  const res = await fetch("http://localhost:3000/burgers");
+  const data = await res.json();
   orders.value = data;
 }
 
 async function getStatus() {
-  const req = await fetch("http://localhost:3000/status");
-  const data = await req.json();
+  const res = await fetch("http://localhost:3000/status");
+  const data = await res.json();
   statusList.value = data;
+}
+
+async function deleteOrder(id) {
+  await fetch(`http://localhost:3000/burgers/${id}`, {
+    method: "DELETE",
+  });
+  getOrders();
+}
+
+async function updateStatus(event, id) {
+  const option = event.target.value;
+
+  const dataJson = JSON.stringify({ status: option });
+  await fetch(`http://localhost:3000/burgers/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: dataJson
+  })
 }
 
 
@@ -48,12 +66,12 @@ onMounted(() => {
               <li>{{ optional }}</li>
             </ul>
           </div>
-          <select name="status" class="status">
+          <select name="status" class="status" @change="updateStatus($event, order.id)">
             <option v-for="status in statusList" :key="status.id" :value="status.type"
               :selected="order.status == status.type">
               {{ status.type }}</option>
           </select>
-          <button class="delete-btn">Cancelar</button>
+          <button class="delete-btn" @click="deleteOrder(order.id)">Cancelar</button>
         </div>
       </div>
     </div>

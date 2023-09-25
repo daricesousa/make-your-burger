@@ -14,8 +14,8 @@ const editOptional = ref([]);
 const msg = ref("");
 
 async function getIngredients() {
-  const req = await fetch("http://localhost:3000/ingredients");
-  const data = await req.json();
+  const res = await fetch("http://localhost:3000/ingredients");
+  const data = await res.json();
   breads.value = data.breads;
   meats.value = data.meats;
   optionalData.value = data.optional;

@@ -87,19 +87,8 @@
         "Tomate",
         "Cheddar"
       ],
-      "status": "Solicitado",
+      "status": "Em produção",
       "id": 1
-    },
-    {
-      "name": "João",
-      "meat": "Maminha",
-      "bread": "Integral",
-      "optional": [
-        "Bacon",
-        "Salame"
-      ],
-      "status": "Solicitado",
-      "id": 2
     },
     {
       "name": "Daise",
@@ -109,19 +98,8 @@
         "Bacon",
         "Salame"
       ],
-      "status": "Solicitado",
+      "status": "Finalizado",
       "id": 3
-    },
-    {
-      "name": "Weliton",
-      "meat": "Veggie burger",
-      "bread": "3 Queijos",
-      "optional": [
-        "Salame",
-        "Bacon"
-      ],
-      "status": "Solicitado",
-      "id": 4
     },
     {
       "name": "Alvani",
@@ -146,16 +124,6 @@
       ],
       "status": "Solicitado",
       "id": 6
-    },
-    {
-      "name": "Joaquina",
-      "meat": "Veggie burger",
-      "bread": "Integral",
-      "optional": [
-        "Tomate"
-      ],
-      "status": "Solicitado",
-      "id": 7
     }
   ]
 }
