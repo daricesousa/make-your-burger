@@ -3,6 +3,7 @@
 import { onMounted, ref } from 'vue';
 
 const orders = ref([]);
+const statusList = ref([]);
 
 async function getOrders() {
   const req = await fetch("http://localhost:3000/burgers");
@@ -10,7 +11,17 @@ async function getOrders() {
   orders.value = data;
 }
 
-onMounted(() => getOrders());
+async function getStatus() {
+  const req = await fetch("http://localhost:3000/status");
+  const data = await req.json();
+  statusList.value = data;
+}
+
+
+onMounted(() => {
+  getOrders();
+  getStatus();
+});
 
 
 </script>
@@ -38,7 +49,9 @@ onMounted(() => getOrders());
             </ul>
           </div>
           <select name="status" class="status">
-            <option value="">{{ order.status }}</option>
+            <option v-for="status in statusList" :key="status.id" :value="status.type"
+              :selected="order.status == status.type">
+              {{ status.type }}</option>
           </select>
           <button class="delete-btn">Cancelar</button>
         </div>
